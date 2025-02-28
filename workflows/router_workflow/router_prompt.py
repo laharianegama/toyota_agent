@@ -11,7 +11,6 @@ system_router_prompt = (
 
         Your output should be **only** one of the words: VehicleCheck, ServiceBooking , TestDrive or NoContext. 
         Do not include any other text. 
-
     """
 )
 

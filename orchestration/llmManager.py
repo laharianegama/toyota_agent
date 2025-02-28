@@ -14,15 +14,28 @@ logger = setup_logger(__name__)
 
 llm_to_use = os.getenv('LLM_TO_USE', 'groq')
 class LLMManager:
-    def __init__(self):
+    def __init__(self,callbacks=None):
         try:
             logger.info("Initializing LLMManager")
+            
+             # Store callbacks
+            self.callbacks = callbacks
 
-            self.llm_for_router  = ChatGroq(
-                model="llama-3.3-70b-versatile",
-                temperature=0.0,
-                max_retries=2,
-            )
+            # Initialize models with callbacks if available
+            if self.callbacks:
+                self.llm_for_router  = ChatGroq(
+                    model="llama-3.3-70b-versatile",
+                    temperature=0.0,
+                    max_retries=2,
+                    callbacks=self.callbacks
+                )
+            else:
+                self.llm_for_router  = ChatGroq(
+                    model="llama-3.3-70b-versatile",
+                    temperature=0.0,
+                    max_retries=2,
+                )
+                
             if llm_to_use == 'nvidia':
                 self.llm = ChatNVIDIA(
                     model="meta/llama3-70b-instruct", temperature=0)

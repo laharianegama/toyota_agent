@@ -24,5 +24,6 @@ langchain-fireworks
 langchain-groq
 langchain-cerebras
 langchain_google_genai
+langsmith
 streamlit
 requests

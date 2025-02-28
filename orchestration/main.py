@@ -14,6 +14,8 @@ from models.models import Query, QueryResponse
 from langchain.globals import set_debug, set_verbose
 from langgraph.graph import END 
 from orchestration.logger import setup_logger
+from orchestration.langsmith_setup import setup_langsmith
+
 
 
 logger = setup_logger(__name__)
@@ -30,6 +32,8 @@ def _set_if_undefined(var: str):
     if not os.environ.get(var):
         os.environ[var] = getpass.getpass(f"Please provide your {var}")
 
+# Setup LangSmith
+langsmith_callbacks = setup_langsmith()
 
 # Initialize managers
 try:
@@ -72,7 +76,8 @@ async def runQuery(query: Query) -> QueryResponse:
     try:
         logger.info(f"Processing query: {query.query}")
         finalResponse = QueryResponse(message="Processing query...")
-        config = {"configurable": {"thread_id": "1"}, "recursion_limit": 100}
+        thread_id = query.thread_id if hasattr(query, 'thread_id') else "1"
+        config = {"configurable": {"thread_id": "1"}, "recursion_limit": 100, "tags":["Toyota Assistant"]}
         response=[]
         
         # Simplified input data
@@ -84,6 +89,11 @@ async def runQuery(query: Query) -> QueryResponse:
             "available_slots": None,
             "available_dealerships": None,
         }
+        # Create a trace in LangSmith for this query
+        run_name = f"Toyota Assistant - {query.query[:30]}..."
+        # Add run name to config if we have LangSmith enabled
+        if langsmith_callbacks:
+            config["run_name"] = run_name
         
         for stream_data in graph.stream(input_data, config):
             if "__end__" not in stream_data:
@@ -102,10 +112,11 @@ async def runQuery(query: Query) -> QueryResponse:
             finalResponse.message = "Sorry, I am not able to understand your query. Please try again."
         logger.info(f"Query processed successfully: {finalResponse.message}")
         return finalResponse
-    except Exception as e:
+    except Exception as e: 
         logger.error(f"Error processing query: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Error processing query")
     
+
 
 @app.exception_handler(Exception)
 async def validation_exception_handler(request, exc):
@@ -166,3 +177,4 @@ if __name__ == "__main__":
 
 #start the FAST API server
 #python -m uvicorn orchestration.main:app --reload --port 8000
+

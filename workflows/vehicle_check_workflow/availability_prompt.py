@@ -5,6 +5,7 @@ import json  # Import json to properly load the inventory data
 
 logger = setup_logger(__name__)
 
+#This is using mock data, but we do not use thi sin the workflow, we generate the data in the workflow
 # Inventory Data (ensure it's properly formatted)
 data = [
     {"Brand": "Toyota", "Model": "Camry", "Year": "2018"},

@@ -2,6 +2,7 @@ from langchain_core.messages import HumanMessage
 from orchestration.logger import setup_logger
 from orchestration.state import MultiAgentState
 from workflows.router_workflow.router_prompt import get_router_prompt
+import re
 
 logger = setup_logger(__name__)
 
@@ -10,9 +11,15 @@ def router_agent(llm_for_router, state: MultiAgentState):
         logger.info(f"Routing question: {state['question']}")
         supervisor_chain = get_router_prompt() | llm_for_router
         messages = state['messages']
-
         human_msg = HumanMessage(state['question'])
         messages = messages + [human_msg]
+        
+        question = state.get('question', '').strip()
+        slot_pattern = r'(?:slot\s*)?(\d+)'
+        if re.search(slot_pattern, question.lower()):
+            logger.info(f"Direct routing to service booking for slot selection")
+            human_msg = HumanMessage(question)
+            return {"question_type": "ServiceBooking", 'messages': [human_msg]}
 
         response = supervisor_chain.invoke({"question": messages})
 

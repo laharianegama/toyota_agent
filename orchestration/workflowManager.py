@@ -32,12 +32,13 @@ load_dotenv()
 logger = setup_logger(__name__)
 
 class WorkflowManager:
-    def __init__(self, llm_manager: LLMManager):
+    def __init__(self, llm_manager: LLMManager,callbacks=None):
         try:
             logger.info("Initializing WorkflowManager")
             self.llm_manager = llm_manager
             self.llm = llm_manager.llm
             self.llm_for_router = llm_manager.llm_for_router
+            self.callbacks = callbacks
             logger.info("WorkflowManager initialized successfully")
         except Exception as e:
             logger.error(f"Error initializing WorkflowManager: {e}")
@@ -91,8 +92,22 @@ class WorkflowManager:
             logger.info("Generating workflow graph")
             memory = MemorySaver()
             enableDebugging = os.getenv("ENABLE_DEBUGGING") == "true"
-            graph = self.create_workflow().compile(checkpointer=memory, debug=enableDebugging)
+            
+            # Pass callbacks to the graph compilation if available
+            if self.callbacks:
+                graph = self.create_workflow().compile(
+                    checkpointer=memory, 
+                    debug=enableDebugging,
+                    callback_manager=self.callbacks
+                )
+            else:
+                graph = self.create_workflow().compile(
+                    checkpointer=memory, 
+                    debug=enableDebugging
+                )
+                
             graph.name = "Toyota Assistant Graph"
+            
             # Draw the graph and get the bytes
             image_bytes = graph.get_graph().draw_mermaid_png(
                 draw_method=MermaidDrawMethod.API,
@@ -106,5 +121,3 @@ class WorkflowManager:
         except Exception as e:
             logger.error(f"Error generating workflow graph: {e}")
             raise
-
-        
