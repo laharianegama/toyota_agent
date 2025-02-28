@@ -65,7 +65,9 @@ class WorkflowManager:
         # Test Drive Workflow
         workflow.add_node("test_drive_node", handle_test_drive)
         
-        workflow.add_node("no_context_node", no_context_node)
+        workflow.add_node("no_context_node", 
+            lambda state: no_context_node(self.llm, state)
+        )
 
         # Add conditional edges
         workflow.add_conditional_edges(
