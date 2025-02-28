@@ -63,7 +63,7 @@ def check_vehicle_availability(llm, state: MultiAgentState):
             
             Guidelines:
             1. Be conversational and friendly, like a real sales associate
-            2. Provide specific details (model, year, color, price) from the inventory
+            2. Provide specific details (model, year, color) from the inventory
             3. If they ask about a specific model, focus on that model
             4. Mention if a model is available or not in stock
             5. If a model isn't available, suggest similar alternatives from the inventory
