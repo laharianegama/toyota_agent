@@ -14,7 +14,7 @@ class MultiAgentState(AgentState):
     available_dealerships: Optional[List[Dict[str, Any]]] = None
     
     # We can keep these fields(workflow wise memory) for future extensibility, but they're not actively used
-    # in the simplified workflow
+    # in this simple workflow
     # booking_messages: Sequence[Any] = field(default_factory=list)
     # test_messages: Sequence[Any] = field(default_factory=list)
     

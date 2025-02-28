@@ -47,7 +47,7 @@ class WorkflowManager:
     def create_workflow(self) -> StateGraph:
         workflow = StateGraph(MultiAgentState)
         
-            # Core router - use a lambda to pass both LLM and state
+        # Core router - use a lambda to pass both LLM and state
         workflow.add_node("router_node", lambda state: router_agent(self.llm_for_router, state)
         )
         workflow.set_entry_point("router_node")
@@ -63,7 +63,9 @@ class WorkflowManager:
         )
 
         # Test Drive Workflow
-        workflow.add_node("test_drive_node", handle_test_drive)
+        workflow.add_node("test_drive_node", 
+            lambda state: handle_test_drive(self.llm, state)
+        )
         
         workflow.add_node("no_context_node", 
             lambda state: no_context_node(self.llm, state)

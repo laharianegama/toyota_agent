@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import plotly.io as pio
 
-# Load environment variables
+#STREAMLIT UI
 load_dotenv()
 
 API_URL = "http://localhost:8000/query"
@@ -17,7 +17,7 @@ recursion_limit = st.sidebar.number_input("Recursion Limit", min_value=1, value=
 thread_id = st.sidebar.text_input("Thread ID", value="1")
 
 # Query Input Section
-st.header("Enter Your Query")
+st.header("Ask Away!")
 query = st.text_area("Query", placeholder="Type your question here...")
 
 # Submit Button
