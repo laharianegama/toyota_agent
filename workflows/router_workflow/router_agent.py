@@ -1,4 +1,4 @@
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from orchestration.logger import setup_logger
 from orchestration.state import MultiAgentState
 from workflows.router_workflow.router_prompt import get_router_prompt
@@ -22,6 +22,7 @@ def router_agent(llm_for_router, state: MultiAgentState):
             return {"question_type": "ServiceBooking", 'messages': [human_msg]}
 
         response = supervisor_chain.invoke({"question": messages})
+        
 
         # Check if the response was filtered
         if 'content_filter_result' in response:

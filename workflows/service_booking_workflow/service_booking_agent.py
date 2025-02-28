@@ -48,7 +48,7 @@ def handle_service_booking(llm_for_router, state: MultiAgentState):
 A confirmation has been sent to your registered email address. If you need to reschedule or cancel, please quote your booking reference.
 
 Is there anything else I can help you with today?"""
-                    
+
                     return {"answer": confirmation_msg}
                 else:
                     return {"answer": f"Sorry, that's not a valid slot number. Please choose a slot number between 1 and {len(LATEST_SHOWN_SLOTS)}."}

@@ -24,7 +24,7 @@ def handle_test_drive(llm, state: MultiAgentState):
             "preferred_time": None
         }
         
-        # Try to use LLM for better extraction, but don't fail if it doesn't work
+        # Try to use LLM for better extraction, but doesn't fail if it doesn't work
         try:
             prompt = get_test_drive_prompt()
             response = llm.invoke(prompt.format(question=question))
@@ -54,7 +54,7 @@ def handle_test_drive(llm, state: MultiAgentState):
         preferred_model = requirements.get("preferred_model", "Toyota")
         
         if preferred_location and preferred_location.lower() not in ["null", "none"]:
-            # User specified a location - find closest match using LLM
+            # User specified a location - find closest match
             try:
                 closest_dealership = find_closest_dealership(llm, preferred_location, available_dealerships)
                 dealership = closest_dealership
@@ -183,6 +183,7 @@ Which dealership is closest to {user_location}? Respond with ONLY the index numb
         
         response = llm.invoke(prompt)
         logger.info(f"LLM response for closest dealership: {response.content}")
+        
         
         # Try to extract a number from the response
         match = re.search(r'\d+', response.content)
