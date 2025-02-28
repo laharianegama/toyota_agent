@@ -55,7 +55,7 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 
 ## 🚀 Getting Started
 
-### Installation
+## Installation
 
 1. **Clone the repository:**
 
@@ -66,23 +66,16 @@ This project demonstrates the use of LangGraph for building a graph-based conver
    ```
 
 2. **Install Requirements**
+   
    pip install -r requirements.txt
 
-3. **Create an .env file**
-
-# LLM Configuration
+3. **Create an .env file with keys**
 
 LLM_TO_USE=groq # Options: groq, fireworks, nvidia, cerebras
 GROQ_API_KEY=your_groq_api_key
-
-# LangSmith (optional)
-
 LANGCHAIN_API_KEY=your_langsmith_api_key
 LANGCHAIN_PROJECT=toyota-assistant
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
-
-# Debugging
-
 ENABLE_DEBUGGING=true
 
 4. **Running the Application**
