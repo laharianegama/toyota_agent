@@ -39,15 +39,13 @@ def handle_service_booking(llm_for_router, state: MultiAgentState):
                     # Format confirmation message
                     confirmation_msg = f"""✅ Service appointment confirmed! Here are your booking details:
 
-📅 Date: {selected_slot['date']}
-⏰ Time: {selected_slot['time']}
-📍 Location: {selected_slot['location']}
-⏱️ Estimated Duration: {selected_slot['duration']} minutes
-🔖 Booking Reference: {booking_ref}
-
-A confirmation has been sent to your registered email address. If you need to reschedule or cancel, please quote your booking reference.
-
-Is there anything else I can help you with today?"""
+                    📅 Date: {selected_slot['date']}
+                    ⏰ Time: {selected_slot['time']}
+                    📍 Location: {selected_slot['location']}
+                    ⏱️ Estimated Duration: {selected_slot['duration']} minutes
+                    🔖 Booking Reference: {booking_ref}
+                    A confirmation has been sent to your registered email address. If you need to reschedule or cancel, please quote your booking reference.
+                    Is there anything else I can help you with today?"""
 
                     return {"answer": confirmation_msg, "context": "None"}
                 else:

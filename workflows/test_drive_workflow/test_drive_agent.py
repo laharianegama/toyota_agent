@@ -197,17 +197,17 @@ def find_closest_dealerships(llm, user_location, available_dealerships):
         prompt = ChatPromptTemplate.from_messages([
             ("system", """You are a geographic proximity expert. Given a user location and a list of dealerships, rank the dealerships from closest to furthest.
 
-Return a JSON array of indices representing the ranking. For example, if dealership 3 is closest, followed by dealership 1, then dealership 2, you would return:
-[3, 1, 2]
+            Return a JSON array of indices representing the ranking. For example, if dealership 3 is closest, followed by dealership 1, then dealership 2, you would return:
+            [3, 1, 2]
 
-Only return the JSON array, nothing else.
-"""),
-            ("human", f"""User location: {user_location}
+            Only return the JSON array, nothing else.
+            """),
+                        ("human", f"""User location: {user_location}
 
-Dealership options:
-{dealership_list}
+            Dealership options:
+            {dealership_list}
 
-Rank these dealerships from closest to furthest to {user_location}:""")
+            Rank these dealerships from closest to furthest to {user_location}:""")
         ])
         
         response = llm.invoke(prompt)
