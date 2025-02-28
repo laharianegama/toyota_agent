@@ -1,8 +1,6 @@
-# toyota_agent
-
 # Toyota Chat Assistant
 
-A conversational AI assistant built with LangGraph that helps users with Toyota-related inquiries, including vehicle availability checks, service appointment bookings, and test drive scheduling.
+A conversational AI assistant built with LangGraph that helps users with Toyota-related inquiries, includes vehicle availability checks, service appointment bookings, and test drive scheduling.
 
 ---
 
@@ -19,26 +17,17 @@ This project demonstrates the use of LangGraph for building a graph-based conver
   - Aggregates responses and returns them to the user
 
 - **Specialized Workflows ("Skills")**
+
   - **Vehicle Availability Check:**  
     Checks Toyota inventory for specified models using a simulated dataset. Users can request availability by model.
   - **Service Appointment Booking:**  
     Allows users to book vehicle service appointments. Displays available slots grouped by date and location and lets users select slots using a simple numbering system.
   - **Test Drive Scheduling:**  
     Schedules test drives at nearby Toyota dealerships. Uses an LLM to find the closest dealership to the user's location and provides dealership information including available models.
+
 - Each workflow node processes its task independently.
 - The router uses an LLM to determine which workflow should handle the query.
 - Special pattern matching ensures follow-up messages are routed correctly.
-
----
-
-## 🌟 Features
-
-- **Intelligent Routing:** Uses LLM to understand user intent and route to the appropriate workflow.
-- **Interactive Service Booking:** Displays available slots and allows selection by number.
-- **Location-Aware Test Drives:** Finds the closest dealership to the user's location.
-- **Robust Error Handling:** Provides graceful fallbacks at each step.
-- **LangSmith Integration:** Optional tracing and monitoring of LLM interactions.
-- **Conversation Memory:** Maintains context for multi-turn interactions.
 
 ---
 
@@ -55,7 +44,7 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 
 ## 🚀 Getting Started
 
-## Installation
+### Installation
 
 1. **Clone the repository:**
 
@@ -66,25 +55,36 @@ This project demonstrates the use of LangGraph for building a graph-based conver
    ```
 
 2. **Install Requirements**
-   
+
+```bash
    pip install -r requirements.txt
+```
 
-3. **Create an .env file with keys**
+3. **Create an .env file**
 
-LLM_TO_USE=groq # Options: groq, fireworks, nvidia, cerebras
+# LLM Configuration
+
+LLM_TO_USE=groq (Options: groq, fireworks, nvidia, cerebras)
 GROQ_API_KEY=your_groq_api_key
+
+# LangSmith (optional)
+
 LANGCHAIN_API_KEY=your_langsmith_api_key
 LANGCHAIN_PROJECT=toyota-assistant
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+
+# Debugging
+
 ENABLE_DEBUGGING=true
 
 4. **Running the Application**
    Start the backend server:
 
-python -m uvicorn orchestration.main:app --reload --port 8000
+### python -m uvicorn orchestration.main:app --reload --port 8000
 
 In a separate terminal, start the Streamlit frontend:
-streamlit run app.py
+
+### streamlit run app.py
 
 Access the application at: http://localhost:8501
 
