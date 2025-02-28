@@ -71,29 +71,38 @@ app.add_middleware(
 async def redirect_root_to_docs():
     return RedirectResponse("/docs")
 
+conversation_states = {}
 @app.post("/query")
 async def runQuery(query: Query) -> QueryResponse:
     try:
         logger.info(f"Processing query: {query.query}")
         finalResponse = QueryResponse(message="Processing query...")
         thread_id = query.thread_id if hasattr(query, 'thread_id') else "1"
-        config = {"configurable": {"thread_id": "1"}, "recursion_limit": 100, "tags":["Toyota Assistant"]}
+        config = {"configurable": {"thread_id": thread_id}, "recursion_limit": 100, "tags":["Toyota Assistant"]}
         response=[]
         
-        # Simplified input data
+        # Use a simple in-memory dictionary to store conversation states
+        global conversation_states
+        existing_state = conversation_states.get(thread_id, {})
+        
+        
+        # Input data with preserved state
         input_data = {
             "question": query.query,
-            "messages": [],
-            "question_type": "",
-            "answer":"",
-            "available_slots": None,
-            "available_dealerships": None,
+            "messages": existing_state.get("messages", []),
+            "question_type": existing_state.get("question_type", ""),
+            "answer": "",
+            "available_slots": existing_state.get("available_slots", None),
+            "available_dealerships": existing_state.get("available_dealerships", None),
+            "context": existing_state.get("context", None)
         }
-        # Create a trace in LangSmith for this query
+        
         run_name = f"Toyota Assistant - {query.query[:30]}..."
         # Add run name to config if we have LangSmith enabled
         if langsmith_callbacks:
             config["run_name"] = run_name
+            
+        latest_state = {}
         
         for stream_data in graph.stream(input_data, config):
             if "__end__" not in stream_data:
@@ -107,6 +116,16 @@ async def runQuery(query: Query) -> QueryResponse:
                
                 if node_response:
                     finalResponse.message = node_response.get('answer')
+                    
+                    latest_state = {
+                    "context": node_response.get("context"),
+                    "messages": node_response.get("messages", input_data["messages"]),
+                    "question_type": input_data["question_type"],
+                    "available_slots": node_response.get("available_slots", input_data["available_slots"]),
+                    "available_dealerships": node_response.get("available_dealerships", input_data["available_dealerships"]),
+                    }
+                    conversation_states[thread_id] = latest_state
+    
         
         if finalResponse.message == "":
             finalResponse.message = "Sorry, I am not able to understand your query. Please try again."

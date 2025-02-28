@@ -49,7 +49,7 @@ A confirmation has been sent to your registered email address. If you need to re
 
 Is there anything else I can help you with today?"""
 
-                    return {"answer": confirmation_msg}
+                    return {"answer": confirmation_msg, "context": "None"}
                 else:
                     return {"answer": f"Sorry, that's not a valid slot number. Please choose a slot number between 1 and {len(LATEST_SHOWN_SLOTS)}."}
             except Exception as e:
@@ -78,7 +78,7 @@ Here are the available service slots:
 To select a slot, simply reply with the slot number (e.g., 'slot 3' ).
 """
         
-        return {"answer": response}
+        return {"answer": response, "context": "service_booking"}
     except Exception as e:
         logger.error(f"Error in handle_service_booking: {e}")
         return {"answer": "Sorry, I encountered an error while processing your request. Please try again later."}

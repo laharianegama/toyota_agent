@@ -9,18 +9,28 @@ logger = setup_logger(__name__)
 def router_agent(llm_for_router, state: MultiAgentState):  
     try:
         logger.info(f"Routing question: {state['question']}")
-        supervisor_chain = get_router_prompt() | llm_for_router
         messages = state['messages']
         human_msg = HumanMessage(state['question'])
         messages = messages + [human_msg]
         
+        context = state.get('context', 'none')
         question = state.get('question', '').strip()
-        slot_pattern = r'(?:slot\s*)?(\d+)'
-        if re.search(slot_pattern, question.lower()):
-            logger.info(f"Direct routing to service booking for slot selection")
-            human_msg = HumanMessage(question)
-            return {"question_type": "ServiceBooking", 'messages': [human_msg]}
-
+        
+        # If there's an active context, route to that workflow
+        if context == "service_booking":
+            return {"question_type": "ServiceBooking", 'messages': [HumanMessage(question)]}
+        elif context == "test_drive":
+            return {"question_type": "TestDrive", 'messages': [HumanMessage(question)]}
+        elif context == "vehicle_check":
+            return {"question_type": "VehicleCheck", 'messages': [HumanMessage(question)]}
+        
+        # slot_pattern = r'(?:slot\s*)?(\d+)'
+        # if re.search(slot_pattern, question.lower()):
+        #     logger.info(f"Direct routing to service booking for slot selection")
+        #     human_msg = HumanMessage(question)
+        #     return {"question_type": "ServiceBooking", 'messages': [human_msg]}
+        
+        supervisor_chain = get_router_prompt() | llm_for_router
         response = supervisor_chain.invoke({"question": messages})
         
 
