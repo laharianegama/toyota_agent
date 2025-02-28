@@ -24,12 +24,6 @@ def router_agent(llm_for_router, state: MultiAgentState):
         elif context == "vehicle_check":
             return {"question_type": "VehicleCheck", 'messages': [HumanMessage(question)]}
         
-        # slot_pattern = r'(?:slot\s*)?(\d+)'
-        # if re.search(slot_pattern, question.lower()):
-        #     logger.info(f"Direct routing to service booking for slot selection")
-        #     human_msg = HumanMessage(question)
-        #     return {"question_type": "ServiceBooking", 'messages': [human_msg]}
-        
         supervisor_chain = get_router_prompt() | llm_for_router
         response = supervisor_chain.invoke({"question": messages})
         

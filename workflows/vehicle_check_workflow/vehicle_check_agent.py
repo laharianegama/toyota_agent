@@ -9,22 +9,6 @@ import json
 logger = setup_logger(__name__)
 
 def check_vehicle_availability(llm, state: MultiAgentState):
-    # try:
-    #     logger.info("Processing vehicle check node")
-    #     supervisor_chain = get_availabilty_prompt() | llm
-    #     messages = state['messages']
-    #     human_msg = HumanMessage(content=state['question'])
-    #     messages = messages + [human_msg]
-    #     response = supervisor_chain.invoke({"question": state['question']})
-    #     return {"answer": response.content} if response.content else {"answer": "No vehicles found"}
-    # except KeyError as e:
-    #     logger.error(f"Missing key in state: {e}")
-    #     raise
-    # except Exception as e:
-    #     logger.error(f"Error in check_vehicle_availability: {e}")
-    #     raise
-    
-    
     try:
         logger.info("Processing vehicle check node")
         
@@ -51,7 +35,7 @@ def check_vehicle_availability(llm, state: MultiAgentState):
         
         # Parse the inventory
         try:
-            # Attempt to parse the entire response content as JSON
+            # parse the entire response content as JSON
             inventory = json.loads(inventory_response.content)
         except json.JSONDecodeError:
             # Fallback: extract JSON from response

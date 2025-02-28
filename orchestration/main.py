@@ -69,8 +69,9 @@ app.add_middleware(
 
 @app.get("/")
 async def redirect_root_to_docs():
-    return RedirectResponse("/docs")
+    return RedirectResponse("/query")
 
+# Global state dictionary - will persist until server restart
 conversation_states = {}
 @app.post("/query")
 async def runQuery(query: Query) -> QueryResponse:
@@ -81,7 +82,7 @@ async def runQuery(query: Query) -> QueryResponse:
         config = {"configurable": {"thread_id": thread_id}, "recursion_limit": 100, "tags":["Toyota Assistant"]}
         response=[]
         
-        # Use a simple in-memory dictionary to store conversation states
+        # in-memory dictionary to store conversation states
         global conversation_states
         existing_state = conversation_states.get(thread_id, {})
         

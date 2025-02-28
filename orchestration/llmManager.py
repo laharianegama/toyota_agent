@@ -10,7 +10,7 @@ logger = setup_logger(__name__)
 
 
 #different opensource LLMs to use, incase you want to change the LLM, or the inference engine
-#you can change the LLM_TO_USE environment variable to the following values: nvidia, fireworks, groq, cerebras
+#change the LLM_TO_USE environment variable to the following values: nvidia, fireworks, groq, cerebras
 
 llm_to_use = os.getenv('LLM_TO_USE', 'groq')
 class LLMManager:

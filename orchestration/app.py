@@ -1,8 +1,6 @@
 import streamlit as st
 import requests
-import os
 from dotenv import load_dotenv
-import plotly.io as pio
 
 #STREAMLIT UI
 load_dotenv()
