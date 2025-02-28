@@ -139,7 +139,6 @@ To schedule your test drive, please reply with the dealership number (e.g., 'dea
         return {
             "answer": response,
             "context": "test_drive",  # Set context
-            "preferred_model": preferred_model  # Store model preference
         }
     
     except Exception as e:
