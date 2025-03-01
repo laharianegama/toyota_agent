@@ -62,50 +62,23 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 
 3. **Create an .env file**
 
-## LLM Configuration
-
-LLM_TO_USE=groq (Options: groq, fireworks, nvidia, cerebras)
-GROQ_API_KEY=your_groq_api_key
-
-### LangSmith (optional)
-
-LANGCHAIN_API_KEY=your_langsmith_api_key
-LANGCHAIN_PROJECT=toyota-assistant
-LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
-
-### Debugging
-
-ENABLE_DEBUGGING=true
+- LLM_TO_USE=groq (Options: groq, fireworks, nvidia, cerebras)
+- GROQ_API_KEY=your_groq_api_key
+- LANGCHAIN_API_KEY=your_langsmith_api_key
+- LANGCHAIN_PROJECT=toyota-assistant
+- LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 
 4. **Running the Application**
-   Start the backend server:
+    - Start the backend server:
 
-## python -m uvicorn orchestration.main:app --reload --port 8000
+    ```bash
+    python -m uvicorn orchestration.main:app --reload --port 8000
+     ```
+    - In a separate terminal, start the Streamlit frontend:
+      
+    ```bash
+    streamlit run app.py
+     ```
 
-In a separate terminal, start the Streamlit frontend:
+### Access the application at: http://localhost:8501
 
-## streamlit run app.py
-
-Access the application at: http://localhost:8501
-
-**Project Structure**
-
-├── orchestration/
-│ ├── **init**.py
-│ ├── main.py # FastAPI server
-│ ├── state.py # State management
-│ ├── llmManager.py # LLM provider management
-│ ├── workflowManager.py # Graph creation
-│ ├── logger.py # Logging setup
-│ └── langsmith_setup.py # LangSmith integration
-├── workflows/
-│ ├── router_workflow/ # Main router
-│ ├── vehicle_check_workflow/ # Vehicle availability
-│ ├── service_booking_workflow/ # Service appointments
-│ ├── test_drive_workflow/ # Test drive scheduling
-│ └── no_context_workflow/ # Fallback handling
-├── models/
-│ └── models.py # Data models
-├── app.py # Streamlit frontend
-├── .env # Environment variables
-└── requirements.txt # Dependencies
