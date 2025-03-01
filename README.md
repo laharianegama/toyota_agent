@@ -62,29 +62,29 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 
 3. **Create an .env file**
 
-# LLM Configuration
+## LLM Configuration
 
 LLM_TO_USE=groq (Options: groq, fireworks, nvidia, cerebras)
 GROQ_API_KEY=your_groq_api_key
 
-# LangSmith (optional)
+### LangSmith (optional)
 
 LANGCHAIN_API_KEY=your_langsmith_api_key
 LANGCHAIN_PROJECT=toyota-assistant
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 
-# Debugging
+### Debugging
 
 ENABLE_DEBUGGING=true
 
 4. **Running the Application**
    Start the backend server:
 
-### python -m uvicorn orchestration.main:app --reload --port 8000
+## python -m uvicorn orchestration.main:app --reload --port 8000
 
 In a separate terminal, start the Streamlit frontend:
 
-### streamlit run app.py
+## streamlit run app.py
 
 Access the application at: http://localhost:8501
 
