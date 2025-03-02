@@ -38,6 +38,7 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 - Streamlit
 - LangGraph
 - LangChain
+- Langsmith
 - Access to LLM providers (e.g., Groq, Fireworks, NVIDIA, Cerebras)
 
 ---
@@ -62,11 +63,15 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 
 3. **Create an .env file**
 
-- LLM_TO_USE=groq (Options: groq, fireworks, nvidia, cerebras)
-- GROQ_API_KEY=your_groq_api_key
-- LANGCHAIN_API_KEY=your_langsmith_api_key
-- LANGCHAIN_PROJECT=toyota-assistant
-- LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+- GROQ_API_KEY='YOUR GROQ API KEY'
+- LANGGRAPH_CACHE_DIR=./.cache/langgraph
+- ENABLE_DEBUGGING=true
+- LANGCHAIN_API_KEY="YOUR LANGCHAIN API KEY"
+- LANGCHAIN_PROJECT=<YOUR LANGCHAIN PROJECT>
+- LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
+- LANGSMITH_TRACING=true
+- LANGSMITH_PROJECT="YOUR LANGSMITH PROJECT"
+- OPENAI_API_KEY="YOUR_OPENAI"
 
 4. **Running the Application**
     - Start the backend server:
