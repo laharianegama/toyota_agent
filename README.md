@@ -49,7 +49,7 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/toyota-agent.git
+   git clone https://github.com/laharianegama/toyota-agent.git
    cd toyota-agent
 
    ```
