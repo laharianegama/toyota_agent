@@ -63,15 +63,17 @@ This project demonstrates the use of LangGraph for building a graph-based conver
 
 3. **Create an .env file**
 
-- GROQ_API_KEY='YOUR GROQ API KEY'
-- LANGGRAPH_CACHE_DIR=./.cache/langgraph
-- ENABLE_DEBUGGING=true
-- LANGCHAIN_API_KEY="YOUR LANGCHAIN API KEY"
-- LANGCHAIN_PROJECT=<YOUR LANGCHAIN PROJECT>
-- LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
-- LANGSMITH_TRACING=true
-- LANGSMITH_PROJECT="YOUR LANGSMITH PROJECT"
-- OPENAI_API_KEY="YOUR_OPENAI"
+```bash
+GROQ_API_KEY='YOUR GROQ API KEY'
+LANGGRAPH_CACHE_DIR=./.cache/langgraph
+ENABLE_DEBUGGING=true
+LANGCHAIN_API_KEY="YOUR LANGCHAIN API KEY"
+LANGCHAIN_PROJECT=<YOUR LANGCHAIN PROJECT>
+LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
+LANGSMITH_TRACING=true
+LANGSMITH_PROJECT="YOUR LANGSMITH PROJECT"
+OPENAI_API_KEY="YOUR_OPENAI"
+```
 
 4. **Running the Application**
     - Start the backend server:
