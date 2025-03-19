@@ -24,9 +24,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-2">
+    <form onSubmit={handleSubmit} className="gap-2 flex items-center">
       <textarea
-        className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-toyota-red resize-none"
+        className="bg-blue-100 flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-toyota-red resize-none"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -36,7 +36,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
       />
       <button
         type="submit"
-        className="bg-toyota-red hover:bg-toyota-darkred text-white px-4 py-2 rounded-md transition-colors disabled:opacity-50"
+        className="bg-green-500 hover:bg-green-600 text-grey px-4 py-2 rounded-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 focus:ring-2 focus:ring-green-400"
         disabled={isLoading || message.trim() === ""}
       >
         Send

@@ -139,8 +139,8 @@ function App() {
                 </div>
               </div>
 
-              <div className="p-4 border-t bg-white shadow-md">
-                <div className="max-w-3xl mx-auto">
+              <div className="p-4 border-t shadow-md">
+                <div className="bg-blue-100 max-w-3xl mx-auto">
                   <ChatInput
                     onSendMessage={handleSendMessage}
                     isLoading={isLoading}
