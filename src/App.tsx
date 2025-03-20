@@ -1,11 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import MessageList from "./components/MessageList";
-import ChatInput from "./components/ChatInput";
 import { Message } from "./components/MessageItem";
 import * as api from "./services/api";
-import Home from "./components/Home";
-import ContactUs from "./components/ContactUs";
+import AppRoutes from "./routes";
+import { NavLink } from "react-router-dom";
 
 function App() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -108,51 +105,45 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-green-50 text-black p-6 shadow-md">
-        <div className="max-w-3xl mx-auto flex items-center">
+      <header className="bg-blue-50 text-black p-4 shadow-md">
+        <div className="max-w-3xl mx-auto flex items-center justify-between">
           <h1 className="text-xl font-bold">Toyota Assistant</h1>
-          <nav className="flex space-x-8 ml-auto">
-            <Link to="/" className="hover:underline">
+          <nav className="flex space-x-4">
+            <NavLink
+              to="/"
+              className={({ isActive }) => `hover:underline
+                ${isActive ? "text-blue-500 font-bold" : "text-gray-500"}`}
+            >
               Chat
-            </Link>
-            <Link to="/home" className="hover:underline">
+            </NavLink>
+            <NavLink
+              to="/home"
+              className={({ isActive }) => `
+                hover:underline
+                ${isActive ? "text-blue-500 font-bold" : "text-gray-500"}
+              `}
+            >
               Home
-            </Link>
-            <Link to="/contact" className="hover:underline">
+            </NavLink>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) => `
+                hover:underline
+                ${isActive ? "text-blue-500 font-bold" : "text-gray-500"}
+              `}
+            >
               Contact Us
-            </Link>
+            </NavLink>
           </nav>
         </div>
       </header>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="flex-1 overflow-y-auto p-4">
-                <div className="max-w-3xl mx-auto">
-                  <MessageList
-                    messages={messages}
-                    isLoading={isLoading}
-                    messagesEndRef={messagesEndRef}
-                  />
-                </div>
-              </div>
 
-              <div className="p-4 border-t shadow-md">
-                <div className=" max-w-3xl mx-auto">
-                  <ChatInput
-                    onSendMessage={handleSendMessage}
-                    isLoading={isLoading}
-                  />
-                </div>
-              </div>
-            </>
-          }
-        />
-        <Route path="/home" element={<Home />} />
-        <Route path="/contact" element={<ContactUs />} />
-      </Routes>
+      <AppRoutes
+        messages={messages}
+        isLoading={isLoading}
+        messagesEndRef={messagesEndRef}
+        onSendMessage={handleSendMessage}
+      />
     </div>
   );
 }
