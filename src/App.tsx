@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [threadId] = useState(
     () => localStorage.getItem("threadId") || crypto.randomUUID()
   );
@@ -17,38 +18,55 @@ function App() {
     localStorage.setItem("threadId", threadId);
   }, [threadId]);
 
-  // Load saved messages
   useEffect(() => {
-    const savedMessages = localStorage.getItem(`messages-${threadId}`);
-    if (savedMessages) {
-      try {
-        // Parse dates when loading
-        const parsedMessages = JSON.parse(savedMessages, (key, value) => {
-          if (key === "timestamp") return new Date(value);
-          return value;
-        });
-        setMessages(parsedMessages);
-      } catch (e) {
-        console.error("Error parsing saved messages:", e);
+    const loadMessages = () => {
+      const savedMessages = localStorage.getItem(`messages-${threadId}`);
+      if (savedMessages) {
+        try {
+          console.log("Loading saved messages for threadId:", threadId);
+          console.log("Saved messages:", savedMessages);
+          const parsedMessages = JSON.parse(savedMessages, (key, value) => {
+            if (key === "timestamp") return new Date(value);
+            return value;
+          });
+          setMessages(parsedMessages);
+        } catch (e) {
+          console.error("Error parsing saved messages:", e);
+        }
+      } else {
+        setMessages([
+          {
+            id: "welcome",
+            content:
+              "Hello! I'm your Toyota Assistant. I can help with vehicle availability, service appointments, and test drives. How can I assist you today?",
+            sender: "assistant",
+            timestamp: new Date(),
+          },
+        ]);
       }
-    } else {
-      // Add welcome message for new conversations
-      setMessages([
-        {
-          id: "welcome",
-          content:
-            "Hello! I'm your Toyota Assistant. I can help with vehicle availability, service appointments, and test drives. How can I assist you today?",
-          sender: "assistant",
-          timestamp: new Date(),
-        },
-      ]);
-    }
+      setIsInitialized(true);
+    };
+
+    loadMessages();
+
+    // Optional: Add storage event listener to sync across tabs
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === `messages-${threadId}`) {
+        loadMessages();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, [threadId]);
 
   // Save messages
   useEffect(() => {
+    if (!isInitialized) return;
+    console.log("Saving messages for threadId:", threadId);
+    console.log("Messages being saved:", messages);
     localStorage.setItem(`messages-${threadId}`, JSON.stringify(messages));
-  }, [messages, threadId]);
+  }, [messages, threadId, isInitialized]);
 
   //   The useEffect hook detects the change in the messages dependency array
   // Inside useEffect, React finds the empty div using messagesEndRef.current
