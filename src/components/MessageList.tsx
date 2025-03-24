@@ -2,7 +2,7 @@ import React, { RefObject } from "react";
 import MessageItem, { Message } from "./MessageItem";
 import TypingIndicator from "./TypingIndicator";
 
-interface MessageListProps {
+export interface MessageListProps {
   messages: Message[];
   isLoading: boolean;
   messagesEndRef: RefObject<HTMLDivElement | null>;
